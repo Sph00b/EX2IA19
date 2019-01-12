@@ -1,6 +1,7 @@
 
 import random
-from visitaInPriorita import GrafoConVisitaPriorita
+from grafoConPriorita import GrafoConVisitaPriorita
+
 
 def randomLetter():
      return random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -29,8 +30,15 @@ def graphGenerator(dimensione):
     G.addWeightedNode(randomLetter(), randomWeight())
 
     for i in range(1, dimensione):
-        newNode = G.addWeightedNode(randomLetter(), randomWeight()).id
-        heads = G.nodes.keys().remove(newNode)  # lista dei nodi inseriti in precedenza
+        G.addWeightedNode(randomLetter(), randomWeight())
+        newNode = G.getLastInserted()
+        heads = G.getNodes()
+        heads.remove(newNode)
         G.insertEdge(newNode, random.choice(heads))
 
     return G
+
+if __name__ == "__main__":
+
+    G = graphGenerator(10)
+    G.visitaInPriorita()
