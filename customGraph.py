@@ -1,6 +1,7 @@
 from Librerie.Graph import Node
 from Librerie.Graph import GraphBase
-from codaPriorita import CodaPriorita
+from priorityQueue import PriorityQueue
+from priorityQueue import TypeQueue
 
 class WeightedNode(Node):
     """
@@ -23,12 +24,14 @@ class CustomGraph(GraphBase):
     Implementatio of the GraphBase data struct with weighted nodes and custom visit method.
     """
 
-    def __init__(self):
+    def __init__(self, qtype):
         """
+        @qtype: tipo di coda
         Manteniamo l'insieme degli archi come liste di adiacenza
         """
         GraphBase.__init__(self)
         self.edges = {}  # dictionary {nodeId: listaAdiacenti}
+        self.qtype = qtype
 
     def numEdges(self):
         """
@@ -82,8 +85,9 @@ class CustomGraph(GraphBase):
         return list(self.nodes.values())
 
     def insertEdge(self, tail, head, weight=None):
-        self.edges.get(tail.id).append(head.id)   # aggiunge head alla lista di adiacenza di tail
-        self.edges.get(head.id).append(tail.id)   # aggiunge tail alla lista di adiacenza di head
+        if not head.id in self.edges.get(tail.id):
+            self.edges.get(tail.id).append(head.id)   # aggiunge head alla lista di adiacenza di tail
+            self.edges.get(head.id).append(tail.id)   # aggiunge tail alla lista di adiacenza di head
 
     def deleteEdge(self, tail, head):
         self.edges.get(tail.id).remove(head.id)  # rimuove head dalla lista di adiacenza di tail
@@ -129,8 +133,8 @@ class CustomGraph(GraphBase):
             if node.weight > nodeMaxPriority.weight:
                 nodeMaxPriority = node
 
-        F = CodaPriorita()  # Frangia
-
+        F = PriorityQueue(self.qtype).queue         #inizializzazione della frangia
+        assert F is not None, "Tipo coda non valida"
         """
         Tweak per l'inserimento del peso in una Coda con Priorità:
         l'implementazione delle code presente nelle Librerie mantiene in alto il minimo valore
@@ -153,17 +157,16 @@ class CustomGraph(GraphBase):
         return visited_nodes
 
     def print(self):
-        listOfElements = []
-        for node in self.getNodes():
-            listOfElements.append((node.id, node.value))
-        print(f"Nel grafo sono presenti i seguenti elementi, preceduti dal loro numero identificativo:\n{listOfElements}")
+        listOfNodes = []
         listOfEdges = []
+        for node in self.getNodes():
+            listOfNodes.append((node.id, node.value, node.weight))
         for edgeOfNodes in self.getEdges():
             listOfEdges.append((edgeOfNodes[0].id, edgeOfNodes[1].id))
-        print(f"E i seguenti archi:\n{listOfEdges}")
+        print(f"Nel grafo sono presenti i seguenti elementi in formato (ID, VALUE, WEIGHT):\n{listOfNodes}\nEd i seguenti archi:\n{listOfEdges}")
 
 if __name__ == "__main__":
-    G = CustomGraph()
+    G = CustomGraph(TypeQueue.BINOMH)
     a = G.addWeightedNode('a', 12)
     b = G.addWeightedNode('b', 23)
     c = G.addWeightedNode('c', 45)
