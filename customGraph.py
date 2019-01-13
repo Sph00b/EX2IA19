@@ -103,8 +103,8 @@ class CustomGraph(GraphBase):
                 head = self.getNode(key)
                 tail = self.getNode(element)
                 if not (tail, head) in l:
-                    l.append(head, tail)
-            return l
+                    l.append((head, tail))
+        return l
 
     def isAdj(self, tail, head):
         return head in self.edges.get(tail)
@@ -153,12 +153,25 @@ class CustomGraph(GraphBase):
         return visited_nodes
 
     def print(self):
-        None
-        #farlo bellino che serve
+        listOfElements = []
+        for node in self.getNodes():
+            listOfElements.append((node.id, node.value))
+        print(f"Nel grafo sono presenti i seguenti elementi, preceduti dal loro numero identificativo:\n{listOfElements}")
+        listOfEdges = []
+        for edgeOfNodes in self.getEdges():
+            listOfEdges.append((edgeOfNodes[0].id, edgeOfNodes[1].id))
+        print(f"E i seguenti archi:\n{listOfEdges}")
 
 if __name__ == "__main__":
     G = CustomGraph()
+    a = G.addWeightedNode('a', 12)
+    b = G.addWeightedNode('b', 23)
+    c = G.addWeightedNode('c', 45)
+    G.insertEdge(a, b)
+    G.insertEdge(b, c)
+    G.insertEdge(c, a)
     G.getNode(1)
     G.getNodes()
     G.getEdges()
     G.visitaInPriorita()
+    G.print()
