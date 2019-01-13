@@ -97,18 +97,3 @@ def testQueue(q):
     print("First:", q.getFirst())
 
     q.printOrdered()
-
-
-# to run this module directly (NOT imported in another one)
-if __name__ == "__main__":
-    print("Coda - ListaCollegata")
-    q = CodaListaCollegata()
-    testQueue(q)
-
-    print("Coda - ArrayList")
-    q = CodaArrayList()
-    testQueue(q)
-
-    print("Coda - ArrayList_deque")
-    q = CodaArrayList_deque()
-    testQueue(q)

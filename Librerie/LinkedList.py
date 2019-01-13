@@ -95,29 +95,3 @@ class ListaCollegata:
             current = current.next
         s += "]"
         print(s)
-
-
-# to run this module directly (NOT imported in another one)
-if __name__ == "__main__":
-
-    l = ListaCollegata()
-    l.printOrdered()
-
-    print("addAsFirst(2)")
-    l.addAsFirst(2)
-    print("addAsFirst(3)")
-    l.addAsFirst(3)
-    print("addAsLast(4)")
-    l.addAsLast(4)
-    l.printOrdered()
-
-    print("getFirst()", l.getFirst())
-    print("getLast()", l.getLast())
-    l.printOrdered()
-    print("popFirst()", l.popFirst())
-    l.printOrdered()
-    print("findFirst()=", l.getFirst())
-    print("popFirst()", l.popFirst())
-    print("popFirst()", l.popFirst())
-    l.printOrdered()
-    print("findLast()=", l.getLast())

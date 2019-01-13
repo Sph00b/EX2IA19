@@ -1,15 +1,12 @@
-
 import random
-from grafoConPriorita import GrafoConVisitaPriorita
+from customGraph import CustomGraph
 
 
 def randomLetter():
      return random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
 def randomWeight():
-    # range: [1, int + 1]
-    int = 1000
-    return 1 + random.random() * int
+    return 1 + random.random() * 1000
 
 def graphGenerator(dimensione):
     """
@@ -18,23 +15,22 @@ def graphGenerator(dimensione):
     arco. Il risultato finale è un grafo non orientato, connesso e
     pesato sui vertici.
 
-    Gli elementi conterranno lettere casuali dell'alfabeto
-
     :param dimensione: la dimensione del grafo, strettamente positiva
     :return:
     """
-    assert dimensione > 0, "la dimensione del grafo deve essere strettamente maggiore di zero"
-    G = GrafoConVisitaPriorita()    # inizializzo un grafo vuoto
+    assert dimensione >= 0, "la dimensione del grafo deve essere positiva"
 
-    # inserisco il primo nodo
-    G.addWeightedNode(randomLetter(), randomWeight())
+    G = CustomGraph()    # inizializzo un grafo vuoto
 
-    for i in range(1, dimensione):
+    if dimensione > 0:
+        # inserisco il primo nodo
         G.addWeightedNode(randomLetter(), randomWeight())
-        newNode = G.getLastInserted()
-        heads = G.getNodes()
-        heads.remove(newNode)
-        G.insertEdge(newNode, random.choice(heads))
+
+        for i in range(1, dimensione):
+            newNode = G.addWeightedNode(randomLetter(), randomWeight())
+            listNode = G.getNodes()
+            listNode.remove(newNode)
+            G.insertEdge(newNode, random.choice(listNode))
 
     return G
 
