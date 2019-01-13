@@ -75,7 +75,7 @@ class PQbinomialHeap:
     Questa versione ha un limite di alberi fissato.
     """
 
-    MAXSIZE = 32  # albero di dimensione maggiore sara' B31
+    MAXSIZE = 2048  # albero di dimensione maggiore sara' B31
 
     def __init__(self):
         self.heap = PQbinomialHeap.MAXSIZE * [None]  # array che mantiene lista di BinamialHeap4
