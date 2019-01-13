@@ -21,10 +21,10 @@ def FillCSV(ascissa, ordinata, filename):
     file.close()
 
 def fillEdges(G):
-    for n in G.getNodes():
-        for m in G.getNodes():
-            if n is not m:
-                G.insertEdge(n, m)
+    nodeList = G.getNodes()
+    for n in range(0, len(nodeList)):
+        for m in range(n+1, len(nodeList)):
+            G.insertEdge(nodeList[n], nodeList[m])
 
 @timer
 def test(G):

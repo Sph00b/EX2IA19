@@ -85,27 +85,26 @@ class CustomGraph(GraphBase):
         return list(self.nodes.values())
 
     def insertEdge(self, tail, head, weight=None):
-        if not head.id in self.edges.get(tail.id):
-            self.edges.get(tail.id).append(head.id)   # aggiunge head alla lista di adiacenza di tail
-            self.edges.get(head.id).append(tail.id)   # aggiunge tail alla lista di adiacenza di head
+        if head not in self.edges.get(tail) and tail is not head:
+            self.edges.get(tail).append(head)   # aggiunge head alla lista di adiacenza di tail
+            self.edges.get(head).append(tail)   # aggiunge tail alla lista di adiacenza di head
 
     def deleteEdge(self, tail, head):
-        self.edges.get(tail.id).remove(head.id)  # rimuove head dalla lista di adiacenza di tail
-        self.edges.get(head.id).remove(tail.id)  # rimuove tail dalla lista di adiacenza di head
+        self.edges.get(tail).remove(head)  # rimuove head dalla lista di adiacenza di tail
+        self.edges.get(head).remove(tail)  # rimuove tail dalla lista di adiacenza di head
 
     def getEdge(self, tail, head):
         '''
-        :return: True if the edge exists, False otherwise
+        :return: (head, tail) if the edge exists, None otherwise
         '''
-        if head.id in self.edges.get(tail.id):
-            return (self.getNode(head.id), self.getNode(tail.id))
+        if head in self.edges.get(tail):
+            return tuple({head, tail})
+        return None
 
     def getEdges(self):
         l = []
-        for key in self.edges.keys():
-            for element in self.edges.get(key):
-                head = self.getNode(key)
-                tail = self.getNode(element)
+        for head in self.edges.keys():
+            for tail in self.edges.get(head):
                 if not (tail, head) in l:
                     l.append((head, tail))
         return l
@@ -145,15 +144,18 @@ class CustomGraph(GraphBase):
 
         F.insert(nodeMaxPriority, -nodeMaxPriority.weight)      #inizializziamo F con il nodo di costo maggiore (nodo, peso)
         visited_nodes = []
+        explored_nodes = set()
 
         while not F.isEmpty():  # while there are nodes to explore ...
             node = F.findMin()   # findMin() ritorna l'id del nodo con priorità massima
             F.deleteMin()
+            explored_nodes |= {node.id}
             visited_nodes.append(node)
             # add all adjacent unexplored nodes to the stack
-            for adj_nodeId in self.getAdj(node.id):
-                if self.getNode(adj_nodeId) not in visited_nodes:
-                    F.insert(self.getNode(adj_nodeId), -self.getNode(adj_nodeId).weight)
+            if len(F.heap) + len(visited_nodes) < self.numNodes():
+                for adj_nodeId in self.getAdj(node.id):
+                    if adj_nodeId not in explored_nodes:
+                        F.insert(self.getNode(adj_nodeId), -self.getNode(adj_nodeId).weight)
         return visited_nodes
 
     def print(self):
@@ -176,5 +178,8 @@ if __name__ == "__main__":
     G.getNode(1)
     G.getNodes()
     G.getEdges()
+    G.isAdj(G.getNode(0), G.getNode(1))
+    G.getAdj(G.getNode(0))
+    G.deg(G.getNode(0))
     G.visitaInPriorita()
     G.print()
