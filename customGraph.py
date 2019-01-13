@@ -178,8 +178,5 @@ if __name__ == "__main__":
     G.getNode(1)
     G.getNodes()
     G.getEdges()
-    G.isAdj(G.getNode(0), G.getNode(1))
-    G.getAdj(G.getNode(0))
-    G.deg(G.getNode(0))
     G.visitaInPriorita()
     G.print()
