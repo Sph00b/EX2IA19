@@ -1,6 +1,16 @@
 from Librerie.Graph import Node
 from Librerie.Graph import GraphBase
-from codaPriorita import CodaPriorita
+from Librerie.priorityQueues.PQbinomialHeap import PQbinomialHeap
+from Librerie.priorityQueues.PQ_Dheap import PQ_DHeap
+from Librerie.priorityQueues.PQbinaryHeap import PQbinaryHeap
+from enum import Enum
+
+class TypeQueue(Enum):
+    BINARH = 1  #Binary Heap
+    BINOMH = 2  #Binomial Heap
+    DHEAP3 = 3   #D-Heap, d=10
+    DHEAP10 = 4   #D-Heap, d=10
+    DHEAP100 = 5   #D-Heap, d=10
 
 class WeightedNode(Node):
     """
@@ -23,12 +33,14 @@ class CustomGraph(GraphBase):
     Implementatio of the GraphBase data struct with weighted nodes and custom visit method.
     """
 
-    def __init__(self):
+    def __init__(self, qtype):
         """
+        @qtype: tipo di coda
         Manteniamo l'insieme degli archi come liste di adiacenza
         """
         GraphBase.__init__(self)
         self.edges = {}  # dictionary {nodeId: listaAdiacenti}
+        self.qtype = qtype
 
     def numEdges(self):
         """
@@ -82,8 +94,9 @@ class CustomGraph(GraphBase):
         return list(self.nodes.values())
 
     def insertEdge(self, tail, head, weight=None):
-        self.edges.get(tail.id).append(head.id)   # aggiunge head alla lista di adiacenza di tail
-        self.edges.get(head.id).append(tail.id)   # aggiunge tail alla lista di adiacenza di head
+        if not head.id in self.edges.get(tail.id):
+            self.edges.get(tail.id).append(head.id)   # aggiunge head alla lista di adiacenza di tail
+            self.edges.get(head.id).append(tail.id)   # aggiunge tail alla lista di adiacenza di head
 
     def deleteEdge(self, tail, head):
         self.edges.get(tail.id).remove(head.id)  # rimuove head dalla lista di adiacenza di tail
@@ -129,7 +142,18 @@ class CustomGraph(GraphBase):
             if node.weight > nodeMaxPriority.weight:
                 nodeMaxPriority = node
 
-        F = CodaPriorita()  # Frangia
+        F = None    #inizializzazione della frangia
+        if self.qtype == TypeQueue.BINARH:
+            F = PQbinaryHeap()
+        elif self.qtype == TypeQueue.BINOMH:
+            F = PQbinomialHeap()
+        elif self.qtype == TypeQueue.DHEAP3:
+            F = PQ_DHeap(3)
+        elif self.qtype == TypeQueue.DHEAP10:
+            F = PQ_DHeap(10)
+        elif self.qtype == TypeQueue.DHEAP100:
+            F = PQ_DHeap(100)
+        assert F is not None, "Tipo di lista non valida"
 
         """
         Tweak per l'inserimento del peso in una Coda con Priorità:
@@ -162,7 +186,7 @@ class CustomGraph(GraphBase):
         print(f"Nel grafo sono presenti i seguenti elementi in formato (ID, VALUE, WEIGHT):\n{listOfNodes}\nEd i seguenti archi:\n{listOfEdges}")
 
 if __name__ == "__main__":
-    G = CustomGraph()
+    G = CustomGraph(TypeQueue.BINOMH)
     a = G.addWeightedNode('a', 12)
     b = G.addWeightedNode('b', 23)
     c = G.addWeightedNode('c', 45)

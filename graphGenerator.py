@@ -33,5 +33,4 @@ if __name__ == "__main__":
     gen = graphGenerator(G)
     for _ in range(100):  # grafo di 100 elementi
         next(gen)
-
     G.print()
