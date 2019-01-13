@@ -153,14 +153,13 @@ class CustomGraph(GraphBase):
         return visited_nodes
 
     def print(self):
-        listOfElements = []
-        for node in self.getNodes():
-            listOfElements.append((node.id, node.value))
-        print(f"Nel grafo sono presenti i seguenti elementi, preceduti dal loro numero identificativo:\n{listOfElements}")
+        listOfNodes = []
         listOfEdges = []
+        for node in self.getNodes():
+            listOfNodes.append((node.id, node.value, node.weight))
         for edgeOfNodes in self.getEdges():
             listOfEdges.append((edgeOfNodes[0].id, edgeOfNodes[1].id))
-        print(f"E i seguenti archi:\n{listOfEdges}")
+        print(f"Nel grafo sono presenti i seguenti elementi in formato (ID, VALUE, WEIGHT):\n{listOfNodes}\nEd i seguenti archi:\n{listOfEdges}")
 
 if __name__ == "__main__":
     G = CustomGraph()
