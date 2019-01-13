@@ -1,16 +1,7 @@
 from Librerie.Graph import Node
 from Librerie.Graph import GraphBase
-from Librerie.priorityQueues.PQbinomialHeap import PQbinomialHeap
-from Librerie.priorityQueues.PQ_Dheap import PQ_DHeap
-from Librerie.priorityQueues.PQbinaryHeap import PQbinaryHeap
-from enum import Enum
-
-class TypeQueue(Enum):
-    BINARH = 1  #Binary Heap
-    BINOMH = 2  #Binomial Heap
-    DHEAP3 = 3   #D-Heap, d=10
-    DHEAP10 = 4   #D-Heap, d=10
-    DHEAP100 = 5   #D-Heap, d=10
+from priorityQueue import PriorityQueue
+from priorityQueue import TypeQueue
 
 class WeightedNode(Node):
     """
@@ -142,19 +133,8 @@ class CustomGraph(GraphBase):
             if node.weight > nodeMaxPriority.weight:
                 nodeMaxPriority = node
 
-        F = None    #inizializzazione della frangia
-        if self.qtype == TypeQueue.BINARH:
-            F = PQbinaryHeap()
-        elif self.qtype == TypeQueue.BINOMH:
-            F = PQbinomialHeap()
-        elif self.qtype == TypeQueue.DHEAP3:
-            F = PQ_DHeap(3)
-        elif self.qtype == TypeQueue.DHEAP10:
-            F = PQ_DHeap(10)
-        elif self.qtype == TypeQueue.DHEAP100:
-            F = PQ_DHeap(100)
-        assert F is not None, "Tipo di lista non valida"
-
+        F = PriorityQueue(self.qtype).queue         #inizializzazione della frangia
+        assert F is not None, "Tipo coda non valida"
         """
         Tweak per l'inserimento del peso in una Coda con Priorità:
         l'implementazione delle code presente nelle Librerie mantiene in alto il minimo valore

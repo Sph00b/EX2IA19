@@ -1,6 +1,4 @@
 import random
-from customGraph import CustomGraph
-
 
 def randomLetter():
      return random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -25,12 +23,3 @@ def graphGenerator(G):  # genera un grafo connesso con n-1 archi
         newNode = G.addWeightedNode(randomLetter(), randomWeight())
         G.insertEdge(newNode, random.choice(listNode))
         listNode.append(newNode)
-
-
-if __name__ == "__main__":
-
-    G = CustomGraph()
-    gen = graphGenerator(G)
-    for _ in range(100):  # grafo di 100 elementi
-        next(gen)
-    G.print()
