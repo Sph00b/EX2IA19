@@ -145,15 +145,18 @@ class CustomGraph(GraphBase):
 
         F.insert(nodeMaxPriority, -nodeMaxPriority.weight)      #inizializziamo F con il nodo di costo maggiore (nodo, peso)
         visited_nodes = []
+        explored = {nodeMaxPriority.id}  # insieme dei nodi esplorati
 
         while not F.isEmpty():  # while there are nodes to explore ...
             node = F.findMin()   # findMin() ritorna l'id del nodo con priorità massima
             F.deleteMin()
-            visited_nodes.append(node)
+            explored.add(node.id)  # marco come esplorato
+            visited_nodes.append(node)  # aggiungo come ultimo esplorato in ordine
             # add all adjacent unexplored nodes to the stack
             for adj_nodeId in self.getAdj(node.id):
-                if self.getNode(adj_nodeId) not in visited_nodes:
+                if adj_nodeId not in explored:
                     F.insert(self.getNode(adj_nodeId), -self.getNode(adj_nodeId).weight)
+
         return visited_nodes
 
     def print(self):
