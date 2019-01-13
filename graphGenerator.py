@@ -8,33 +8,30 @@ def randomLetter():
 def randomWeight():
     return 1 + random.random() * 1000
 
-def graphGenerator(dimensione):
+def graphGenerator(G):  # genera un grafo connesso con n-1 archi
     """
     Il generatore crea un albero di un singolo nodo e, ogni volta
     che crea un nuovo vertice, lo connette all'albero mediante un
     arco. Il risultato finale è un grafo non orientato, connesso e
     pesato sui vertici.
 
-    :param dimensione: la dimensione del grafo, strettamente positiva
-    :return:
+    :param G: un grafo vuoto
     """
-    assert dimensione >= 0, "la dimensione del grafo deve essere positiva"
 
-    G = CustomGraph()    # inizializzo un grafo vuoto
+    firstNode = G.addWeightedNode(randomLetter(), randomWeight())   # inserisco il primo nodo
+    listNode = [firstNode]
+    while True:
+        yield listNode
+        newNode = G.addWeightedNode(randomLetter(), randomWeight())
+        G.insertEdge(newNode, random.choice(listNode))
+        listNode.append(newNode)
 
-    if dimensione > 0:
-        # inserisco il primo nodo
-        G.addWeightedNode(randomLetter(), randomWeight())
-
-        for i in range(1, dimensione):
-            newNode = G.addWeightedNode(randomLetter(), randomWeight())
-            listNode = G.getNodes()
-            listNode.remove(newNode)
-            G.insertEdge(newNode, random.choice(listNode))
-
-    return G
 
 if __name__ == "__main__":
 
-    G = graphGenerator(10)
-    G.visitaInPriorita()
+    G = CustomGraph()
+    gen = graphGenerator(G)
+    for _ in range(100):  # grafo di 100 elementi
+        next(gen)
+
+    G.print()
