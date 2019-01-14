@@ -13,7 +13,7 @@ def plot():
             plt.plot(x, y, color = "C" + str(c), label = f)
             plt.legend(loc = "best")
             c += 1
-        plt.savefig("../Graph/DHEAP" + o +"+.png")
+        plt.savefig("../Graph/DHEAP" + o +".png")
         plt.show()
 
 if __name__ == "__main__":
