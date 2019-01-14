@@ -24,7 +24,7 @@ def fillEdges(G):
     nodeList = G.getNodes()
     for n in range(0, len(nodeList)):
         for m in range(n+1, len(nodeList)):
-            G.insertEdge(nodeList[n], nodeList[m])
+            G.insertEdge(nodeList[n].id, nodeList[m].id)
 
 @timer
 def test(G):
@@ -43,7 +43,7 @@ def foo(qtype, fullE):
                 fillEdges(G)
             test(G)
             t = t + timer
-        FillCSV(str(i), str(t / m), f"./Data/CustomGraph_QueueType={qtype.name}_FullEdges={fullE}")
+        # FillCSV(str(i), str(t / m), f"./Data/CustomGraph_QueueType={qtype.name}_FullEdges={fullE}")
         print(f"Media di {m} tempi su {i} visite (Queue_type={qtype.name}, max_#Archi={fullE}) : {t/m}")
 
 if __name__ == "__main__":

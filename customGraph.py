@@ -164,7 +164,7 @@ class CustomGraph(GraphBase):
         for node in self.getNodes():
             listOfNodes.append((node.id, node.value, node.weight))
         for edgeOfNodes in self.getEdges():
-            listOfEdges.append((edgeOfNodes[0].id, edgeOfNodes[1].id))
+            listOfEdges.append((edgeOfNodes[0], edgeOfNodes[1]))
         print(f"Nel grafo sono presenti i seguenti elementi in formato (ID, VALUE, WEIGHT):\n{listOfNodes}\nEd i seguenti archi:\n{listOfEdges}")
 
 if __name__ == "__main__":
