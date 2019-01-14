@@ -102,12 +102,12 @@ class CustomGraph(GraphBase):
         return None
 
     def getEdges(self):
-        l = []
+        l = set()
         for head in self.edges.keys():
             for tail in self.edges.get(head):
                 if not (tail, head) in l:
-                    l.append((head, tail))
-        return l
+                    l |= {(head, tail)}
+        return list(l)
 
     def isAdj(self, tail, head):
         return head in self.edges.get(tail)
@@ -172,9 +172,9 @@ if __name__ == "__main__":
     a = G.addWeightedNode('a', 12)
     b = G.addWeightedNode('b', 23)
     c = G.addWeightedNode('c', 45)
-    G.insertEdge(a, b)
-    G.insertEdge(b, c)
-    G.insertEdge(c, a)
+    G.insertEdge(a.id, b.id)
+    G.insertEdge(b.id, c.id)
+    G.insertEdge(c.id, a.id)
     G.getNode(1)
     G.getNodes()
     G.getEdges()
