@@ -110,7 +110,10 @@ class CustomGraph(GraphBase):
         return list(l)
 
     def isAdj(self, tail, head):
-        return head in self.edges.get(tail)
+        if self.deg(tail) <= self.deg(head):
+            return head in self.edges.get(tail)
+        else:
+            return tail in self.edges.get(head)
 
     def getAdj(self, nodeId):
         return self.edges.get(nodeId)
@@ -175,6 +178,7 @@ if __name__ == "__main__":
     G.insertEdge(a.id, b.id)
     G.insertEdge(b.id, c.id)
     G.insertEdge(c.id, a.id)
+    G.isAdj(a.id,b.id)
     G.getNode(1)
     G.getNodes()
     G.getEdges()
