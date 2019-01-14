@@ -98,11 +98,9 @@ class CustomGraph(GraphBase):
         :return: (head, tail) if the edge exists, None otherwise
         '''
         if self.deg(tail) <= self.deg(head):
-            if head in self.edges.get(tail):
-                return tuple({head, tail})
-        else:
-            if tail in self.edges.get(head):
-                return tuple({head, tail})
+            head, tail = tail, head
+        if tail in self.edges.get(head):
+            return tuple({head, tail})      #per simmetria non è necessario il ripristino
         return None
 
     def getEdges(self):
@@ -115,9 +113,8 @@ class CustomGraph(GraphBase):
 
     def isAdj(self, tail, head):
         if self.deg(tail) <= self.deg(head):
-            return head in self.edges.get(tail)
-        else:
-            return tail in self.edges.get(head)
+            head, tail = tail, head
+        return tail in self.edges.get(head)
 
     def getAdj(self, nodeId):
         return self.edges.get(nodeId)
