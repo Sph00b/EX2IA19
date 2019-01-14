@@ -50,12 +50,3 @@ if __name__ == "__main__":
     for t in list(TypeQueue):
         foo(t, False)
         foo(t, True)
-
-'''
-casi d'uso
-'''
-def printNodeList(l):
-    s = "["
-    for node in l:
-        s += "("+str(node.weight)+")"
-    print(f"{s}]")
