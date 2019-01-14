@@ -19,7 +19,7 @@ def graphGenerator(G):  # genera un grafo connesso con n-1 archi
     firstNode = G.addWeightedNode(randomLetter(), randomWeight())   # inserisco il primo nodo
     listNode = [firstNode]
     while True:
-        yield listNode
+        yield
         newNode = G.addWeightedNode(randomLetter(), randomWeight())
-        G.insertEdge(newNode, random.choice(listNode))
+        G.insertEdge(newNode.id, random.choice(listNode).id)
         listNode.append(newNode)
