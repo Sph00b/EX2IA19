@@ -97,8 +97,12 @@ class CustomGraph(GraphBase):
         '''
         :return: (head, tail) if the edge exists, None otherwise
         '''
-        if head in self.edges.get(tail):
-            return tuple({head, tail})
+        if self.deg(tail) <= self.deg(head):
+            if head in self.edges.get(tail):
+                return tuple({head, tail})
+        else:
+            if tail in self.edges.get(head):
+                return tuple({head, tail})
         return None
 
     def getEdges(self):
